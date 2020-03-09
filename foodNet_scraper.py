@@ -3,11 +3,14 @@ import re
 import string
 from csv import excel, writer
 from re import findall
+from socket import create_connection
 
 import lxml
+import mysql.connector
 import requests
 from bs4 import BeautifulSoup
 from lxml.html import find_class
+from mysql.connector import Error
 
 urls_List=["https://www.foodnetwork.com/content/food-com/en/recipes/food-network-kitchen/h/he/hea/heal/healthified-broccoli-cheddar-soup-recipe",
 "https://www.foodnetwork.com/content/food-com/en/recipes/food-network-kitchen/h/ha/has/hash/hash-brown-casserole-recipe",
@@ -69,12 +72,12 @@ for url in urls_List:
     # print(instructions)
 
     # To write or append for recipe's table. Just use 'a' the append and 'w' to write. When appending comment out "headers"
-    with open ("recipes.csv", "a") as csv_file:
-        csv_writer = writer(csv_file, quoting=csv.QUOTE_ALL)
-        headers = ["Recipe Name", "Yield","Total Time", "Prep Time", "Cook Time", "Instruction" ]
-        csv_writer.writerow(headers)
-        rows=[title, servings,totalTime,prepTime,cookTime,instructions]
-        csv_writer.writerow(rows)
+    # with open ("recipes.csv", "a") as csv_file:
+    #     csv_writer = writer(csv_file, quoting=csv.QUOTE_ALL)
+    #     headers = ["Recipe Name", "Yield","Total Time", "Prep Time", "Cook Time", "Instruction" ]
+    #     csv_writer.writerow(headers)
+    #     rows=[title, servings,totalTime,prepTime,cookTime,instructions]
+    #     csv_writer.writerow(rows)
 
 
 
@@ -89,17 +92,22 @@ for url in urls_List:
 
 
     # To write or append to ingredients table
-    with open ("ingredients.csv","a") as csv_file:
-        csv_writer = writer(csv_file, quoting=csv.QUOTE_ALL)
-        headers = ["Recipe Name","Ingredients"]
-        csv_writer.writerow(headers)
+    # with open ("ingredients.csv","a") as csv_file:
+    #     csv_writer = writer(csv_file, quoting=csv.QUOTE_ALL)
+    #     headers = ["Recipe Name","Ingredients"]
+    #     csv_writer.writerow(headers)
 
-        for i in ingredients:    
-            rows= [title,i]
-            csv_writer.writerow(rows)
-
-
+    #     for i in ingredients:    
+    #         rows= [title,i]
+    #         csv_writer.writerow(rows)
 
 
+# Establishing connection to DB
+mydb =mysql.connector.connect(
+    host = "localhost",
+    user = "liftoff",
+    passwd = "scraper",
+)
+print(mydb)
 
 
