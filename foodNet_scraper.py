@@ -31,12 +31,15 @@ my_cursor = mydb.cursor()
 #     print(db)
 
 # Creating DB tables
-# my_cursor.execute("CREATE TABLE recipes (recipe_id INT PRIMARY KEY AUTO_INCREMENT, recipe_name TEXT, yield TEXT, total_time TEXT, prep_time TEXT, cook_time TEXT, instructions TEXT)")
-my_cursor.execute("CREATE TABLE ingredients (ingredient_id INT PRIMARY KEY AUTO_INCREMENT, ingredient_name TEXT, measurement TEXT, recipe_id INT, FOREIGN KEY (recipe_id) REFERENCES recipes(recipe_id))")
+my_cursor.execute("CREATE TABLE recipes (recipe_id INT PRIMARY KEY AUTO_INCREMENT, recipe_name VARCHAR(100), servings VARCHAR(25), total_time VARCHAR(30), prep_time VARCHAR(30), cook_time VARCHAR(30), instructions VARCHAR(15000))")
+my_cursor.execute("CREATE TABLE ingredients (ingredient_id INT PRIMARY KEY AUTO_INCREMENT, ingredient_name VARCHAR(100), measurement VARCHAR(50), recipe_id INT, FOREIGN KEY (recipe_id) REFERENCES recipes(recipe_id))")
+
 # Testing tables
 for tables in my_cursor:
     print(tables)
 
+my_cursor.close()
+mydb.close()
 
 
 
@@ -77,10 +80,10 @@ for url in urls_List:
     # To view webpage and further inspect its structure
     # recipe = soup.findAll(class_="recipe-body")
 
-    title = soup.find("h1").get_text().strip()
-    totalTime= soup.find(class_="o-RecipeInfo__a-Description m-RecipeInfo__a-Description--Total").get_text().strip()
-    prepTime=soup.find(class_="o-RecipeInfo__m-Time").select(".o-RecipeInfo__a-Description")[0].get_text().strip()
-    cookTime=soup.find(class_="o-RecipeInfo__m-Time").select(".o-RecipeInfo__a-Description")[1].get_text().strip()
+    recipe_name = soup.find("h1").get_text().strip()
+    total_time= soup.find(class_="o-RecipeInfo__a-Description m-RecipeInfo__a-Description--Total").get_text().strip()
+    prep_time=soup.find(class_="o-RecipeInfo__m-Time").select(".o-RecipeInfo__a-Description")[0].get_text().strip()
+    cook_time=soup.find(class_="o-RecipeInfo__m-Time").select(".o-RecipeInfo__a-Description")[1].get_text().strip()
     servings= soup.find(class_="o-RecipeInfo__m-Yield").select(".o-RecipeInfo__a-Description")[0].get_text()
     directions= []
     # # Let's try this:
@@ -91,10 +94,10 @@ for url in urls_List:
 
     # Variable Tests
     #print(recipesLocated)
-    # print(title)
-    # print(totalTime)
-    # print(prepTime)
-    # print(cookTime)
+    # print(recipe_name)
+    # print(total_time)
+    # print(prep_time)
+    # print(cook_time)
     # print(servings)
     # print(directions)
     # print(instructions)
@@ -102,9 +105,9 @@ for url in urls_List:
     # To write or append for recipe's table. Just use 'a' the append and 'w' to write. When appending comment out "headers"
     # with open ("recipes.csv", "a") as csv_file:
     #     csv_writer = writer(csv_file, quoting=csv.QUOTE_ALL)
-    #     headers = ["Recipe Name", "Yield","Total Time", "Prep Time", "Cook Time", "Instruction" ]
+    #     headers = ["Recipe Name", "servings","Total Time", "Prep Time", "Cook Time", "Instruction" ]
     #     csv_writer.writerow(headers)
-    #     rows=[title, servings,totalTime,prepTime,cookTime,instructions]
+    #     rows=[recipe_name, servings,total_time,prep_time,cook_time,instructions]
     #     csv_writer.writerow(rows)
 
 
@@ -126,9 +129,7 @@ for url in urls_List:
     #     csv_writer.writerow(headers)
 
     #     for i in ingredients:    
-    #         rows= [title,i]
+    #         rows= [recipe_name,i]
     #         csv_writer.writerow(rows)
 
-
-
-
+    
