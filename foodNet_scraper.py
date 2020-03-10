@@ -12,6 +12,34 @@ from bs4 import BeautifulSoup
 from lxml.html import find_class
 from mysql.connector import Error
 
+# Establishing connection to DB
+mydb =mysql.connector.connect(
+    host = "localhost",
+    user = "liftoff",
+    passwd = "scraper",
+    database = "liftoff"
+)
+# Testing connection
+# print(mydb)
+
+# Initialzing cursor
+my_cursor = mydb.cursor()
+
+# Checking to see if liftoff db exist and is recognized when running our code
+# my_cursor.execute("SHOW DATABASES")
+# for db in my_cursor:
+#     print(db)
+
+# Creating DB tables
+# my_cursor.execute("CREATE TABLE recipes (recipe_id INT PRIMARY KEY AUTO_INCREMENT, recipe_name TEXT, yield TEXT, total_time TEXT, prep_time TEXT, cook_time TEXT, instructions TEXT)")
+my_cursor.execute("CREATE TABLE ingredients (ingredient_id INT PRIMARY KEY AUTO_INCREMENT, ingredient_name TEXT, measurement TEXT, recipe_id INT, FOREIGN KEY (recipe_id) REFERENCES recipes(recipe_id))")
+# Testing tables
+for tables in my_cursor:
+    print(tables)
+
+
+
+
 urls_List=["https://www.foodnetwork.com/content/food-com/en/recipes/food-network-kitchen/h/he/hea/heal/healthified-broccoli-cheddar-soup-recipe",
 "https://www.foodnetwork.com/content/food-com/en/recipes/food-network-kitchen/h/ha/has/hash/hash-brown-casserole-recipe",
 "https://www.foodnetwork.com/content/food-com/en/recipes/ellie-krieger/p/po/por/pork/pork-tenderloin-with-seasoned-rub-recipe",
@@ -102,12 +130,5 @@ for url in urls_List:
     #         csv_writer.writerow(rows)
 
 
-# Establishing connection to DB
-mydb =mysql.connector.connect(
-    host = "localhost",
-    user = "liftoff",
-    passwd = "scraper",
-)
-print(mydb)
 
 
