@@ -1,6 +1,18 @@
 {
     "python.pythonPath": "C:\\Program Files\\Python38\\python.exe",
     "cSpell.words": [
+        "Inno",
         "mydb"
+    ],
+    "sqltools.connections": [
+        {
+            "database": "liftoff",
+            "dialect": "MySQL",
+            "name": "localhost",
+            "password": "scraper",
+            "port": 3306,
+            "server": "localhost",
+            "username": "liftoff"
+        }
     ]
 }

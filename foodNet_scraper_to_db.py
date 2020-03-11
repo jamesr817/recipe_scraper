@@ -1,45 +1,37 @@
-import csv
-import re
-import string
-from csv import excel, writer
-from re import findall
-from socket import create_connection
-
-import lxml
 import mysql.connector
 import requests
 from bs4 import BeautifulSoup
-from lxml.html import find_class
 from mysql.connector import Error
+
 
 # Establishing connection to DB
 mydb =mysql.connector.connect(
-    host = "localhost",
-    user = "liftoff",
-    passwd = "scraper",
-    database = "liftoff"
+     host = "localhost",
+     user = "liftoff",
+     passwd = "scraper",
+     database = "liftoff"
 )
 # Testing connection
-# print(mydb)
+print(mydb)
 
 # Initialzing cursor
 my_cursor = mydb.cursor()
 
 # Checking to see if liftoff db exist and is recognized when running our code
-# my_cursor.execute("SHOW DATABASES")
-# for db in my_cursor:
-#     print(db)
+my_cursor.execute("SHOW DATABASES")
+for db in my_cursor:
+    print(db)
 
 # Creating DB tables
-my_cursor.execute("CREATE TABLE recipes (recipe_id INT PRIMARY KEY AUTO_INCREMENT, recipe_name VARCHAR(100), servings VARCHAR(25), total_time VARCHAR(30), prep_time VARCHAR(30), cook_time VARCHAR(30), instructions VARCHAR(15000))")
-my_cursor.execute("CREATE TABLE ingredients (ingredient_id INT PRIMARY KEY AUTO_INCREMENT, ingredient_name VARCHAR(100), measurement VARCHAR(50), recipe_id INT, FOREIGN KEY (recipe_id) REFERENCES recipes(recipe_id))")
+my_cursor.execute("CREATE TABLE recipes (recipe_id INT PRIMARY KEY AUTO_INCREMENT, recipe_name VARCHAR(255), servings VARCHAR(255), total_time VARCHAR(255), prep_time VARCHAR(255), cook_time VARCHAR(255), instructions VARCHAR(20000))ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci")
+my_cursor.execute("CREATE TABLE ingredients (ingredient_id INT PRIMARY KEY AUTO_INCREMENT, ingredient_name VARCHAR(255), measurement VARCHAR(255), recipe_id INT, FOREIGN KEY (recipe_id) REFERENCES recipes(recipe_id))ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci")
 
 # Testing tables
 for tables in my_cursor:
     print(tables)
 
-my_cursor.close()
-mydb.close()
+# my_cursor.close()
+# mydb.close()
 
 
 
@@ -69,51 +61,45 @@ urls_List=["https://www.foodnetwork.com/content/food-com/en/recipes/food-network
 "https://www.foodnetwork.com/recipes/ellie-krieger/roasted-cauliflower-and-broccoli-recipe-1947594",
 "https://www.foodnetwork.com/recipes/food-network-kitchen/buffalo-cauliflower-with-blue-cheese-sauce-3362800",
 ]
-for url in urls_List:
+# for url in urls_List:
 
-    response = requests.get(url)
+    # response = requests.get(url)
 
-    soup = BeautifulSoup(response.text, "html.parser")
+    # soup = BeautifulSoup(response.text, "html.parser")
 
-    recipesLocated = soup.body.find_all(class_="recipe-body")
+    # recipesLocated = soup.body.find_all(class_="recipe-body")
 
     # To view webpage and further inspect its structure
     # recipe = soup.findAll(class_="recipe-body")
 
-    recipe_name = soup.find("h1").get_text().strip()
-    total_time= soup.find(class_="o-RecipeInfo__a-Description m-RecipeInfo__a-Description--Total").get_text().strip()
-    prep_time=soup.find(class_="o-RecipeInfo__m-Time").select(".o-RecipeInfo__a-Description")[0].get_text().strip()
-    cook_time=soup.find(class_="o-RecipeInfo__m-Time").select(".o-RecipeInfo__a-Description")[1].get_text().strip()
-    servings= soup.find(class_="o-RecipeInfo__m-Yield").select(".o-RecipeInfo__a-Description")[0].get_text()
-    directions= []
+    # recipe_name = soup.find("h1").get_text().strip()
+    # total_time= soup.find(class_="o-RecipeInfo__a-Description m-RecipeInfo__a-Description--Total").get_text().strip()
+    # prep_time=soup.find(class_="o-RecipeInfo__m-Time").select(".o-RecipeInfo__a-Description")[0].get_text().strip()
+    # cook_time=soup.find(class_="o-RecipeInfo__m-Time").select(".o-RecipeInfo__a-Description")[1].get_text().strip()
+    # servings= soup.find(class_="o-RecipeInfo__m-Yield").select(".o-RecipeInfo__a-Description")[0].get_text()
+    # directions= []
     # # Let's try this:
-    for i in soup.find(class_="o-Method__m-Body").select(".o-Method__m-Step"):
-        directions.append(i.get_text().strip())
+    #for i in soup.find(class_="o-Method__m-Body").select(".o-Method__m-Step"):
+        #directions.append(i.get_text().strip())
 
-    instructions=''.join(directions).replace(".",".\n")
+    #instructions=''.join(directions).replace(".",".\n").strip()
 
     # Variable Tests
     #print(recipesLocated)
-    # print(recipe_name)
-    # print(total_time)
-    # print(prep_time)
-    # print(cook_time)
-    # print(servings)
+    # print(type(recipe_name))
+    # print(type(total_time))
+    # print(type(prep_time))
+    # print(type(cook_time))
+    # print(type(servings))
     # print(directions)
     # print(instructions)
 
-    # To write or append for recipe's table. Just use 'a' the append and 'w' to write. When appending comment out "headers"
-    # with open ("recipes.csv", "a") as csv_file:
-    #     csv_writer = writer(csv_file, quoting=csv.QUOTE_ALL)
-    #     headers = ["Recipe Name", "servings","Total Time", "Prep Time", "Cook Time", "Instruction" ]
-    #     csv_writer.writerow(headers)
-    #     rows=[recipe_name, servings,total_time,prep_time,cook_time,instructions]
-    #     csv_writer.writerow(rows)
+
 
 
 
     ##For Ingredients
-    ingredients =soup.find(class_="o-Ingredients__m-Body").get_text().strip().split("\n")
+    # ingredients =soup.find(class_="o-Ingredients__m-Body").get_text().strip().split("\n")
     # for i in ingredients:
     #     print(i)
     
@@ -122,14 +108,9 @@ for url in urls_List:
     # print(ingredients)
 
 
-    # To write or append to ingredients table
-    # with open ("ingredients.csv","a") as csv_file:
-    #     csv_writer = writer(csv_file, quoting=csv.QUOTE_ALL)
-    #     headers = ["Recipe Name","Ingredients"]
-    #     csv_writer.writerow(headers)
 
-    #     for i in ingredients:    
-    #         rows= [recipe_name,i]
-    #         csv_writer.writerow(rows)
 
-    
+
+
+
+# TODO Figure out how to get the scraped data into the db. DB keeps rejecting the data. From what I'm interpreting, its from the data type from instructions and data type of ingredients
