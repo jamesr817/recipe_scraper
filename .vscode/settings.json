@@ -1,6 +1,23 @@
 {
     "python.pythonPath": "C:\\Program Files\\Python38\\python.exe",
     "cSpell.words": [
-        "mydb"
+        "Inno",
+        "csvs",
+        "mydb",
+        "passwrd"
+    ],
+    "sqltools.connections": [
+        {
+            "database": "health_recipe",
+            "dialect": "MySQL",
+            "name": "Local instance MySQL80",
+            "password": "root%recipe5",
+            "port": 3306,
+            "server": "localhost",
+            "username": "recipe_user"
+        }
+    ],
+    "cSpell.ignoreWords": [
+        "vals"
     ]
 }
