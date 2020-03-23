@@ -3,17 +3,21 @@
     "cSpell.words": [
         "Inno",
         "csvs",
-        "mydb"
+        "mydb",
+        "passwrd"
     ],
     "sqltools.connections": [
         {
-            "database": "liftoff",
+            "database": "health_recipe",
             "dialect": "MySQL",
-            "name": "localhost",
-            "password": "scraper",
+            "name": "Local instance MySQL80",
+            "password": "root%recipe5",
             "port": 3306,
             "server": "localhost",
-            "username": "liftoff"
+            "username": "recipe_user"
         }
+    ],
+    "cSpell.ignoreWords": [
+        "vals"
     ]
 }

@@ -32,6 +32,45 @@ urls_List=["https://www.foodnetwork.com/content/food-com/en/recipes/food-network
 "https://www.foodnetwork.com/recipes/ellie-krieger/blueberry-compote-recipe-1946907",
 "https://www.foodnetwork.com/recipes/ellie-krieger/roasted-cauliflower-and-broccoli-recipe-1947594",
 "https://www.foodnetwork.com/recipes/food-network-kitchen/buffalo-cauliflower-with-blue-cheese-sauce-3362800",
+"https://www.foodnetwork.com/recipes/food-network-kitchen/roasted-brussels-sprouts-with-grapes-3894868",
+"https://www.foodnetwork.com/recipes/food-network-kitchen/brussels-sprouts-in-a-blanket-3757604",
+"https://www.foodnetwork.com/recipes/ina-garten/roasted-brussels-sprouts-recipe2-1941953",
+"https://www.foodnetwork.com/recipes/ree-drummond/roasted-brussels-sprouts-and-kale-3531763",
+"https://www.foodnetwork.com/recipes/ree-drummond/beautiful-brussels-sprouts-3166862",
+"https://www.foodnetwork.com/recipes/food-network-kitchen/air-fryer-brussels-sprouts-5565493",
+"https://www.foodnetwork.com/recipes/ina-garten/shaved-brussels-sprouts-with-pancetta-5509453",
+"https://www.foodnetwork.com/recipes/ina-garten/balsamic-roasted-brussels-sprouts-recipe-1996813",
+"https://www.foodnetwork.com/recipes/giada-de-laurentiis/charred-brussels-sprout-crostini-3164927",
+"https://www.foodnetwork.com/recipes/dave-lieberman/slow-cooked-brussels-sprouts-recipe-1945032",
+"https://www.foodnetwork.com/recipes/food-network-kitchen/bacon-wrapped-brussels-sprouts-with-creamy-lemon-dip-3364562",
+"https://www.foodnetwork.com/recipes/food-network-kitchen/grilled-brussels-sprouts-7561803",
+"https://www.foodnetwork.com/recipes/alton-brown/basic-brussels-sprouts-recipe-1944719",
+"https://www.foodnetwork.com/recipes/ina-garten/sauteed-shredded-brussels-sprouts-3160644",
+"https://www.foodnetwork.com/in-season-now/packages/winter-produce-guide",
+"https://www.foodnetwork.com/recipes/food-network-kitchen/instant-pot-butternut-squash-soup-5449624",
+"https://www.foodnetwork.com/recipes/food-network-kitchen/instant-pot-barbecue-pulled-pork-sandwiches-3649647",
+"https://www.foodnetwork.com/recipes/food-network-kitchen/5-ingredient-instant-pot-mac-and-cheese-3649854",
+"https://www.foodnetwork.com/recipes/food-network-kitchen/instant-pot-greek-chicken-bowls-5453420",
+"https://www.foodnetwork.com/recipes/food-network-kitchen/instant-pot-carnitas-5449432",
+"https://www.foodnetwork.com/recipes/food-network-kitchen/instant-pot-chicken-adobo-3649636",
+"https://www.foodnetwork.com/recipes/food-network-kitchen/instant-pot-indian-shrimp-biriyani-5474376",
+"https://www.foodnetwork.com/recipes/food-network-kitchen/instant-pot-chicken-noodle-soup-5195671",
+"https://www.foodnetwork.com/recipes/food-network-kitchen/instant-pot-chicken-cacciatore-5449726",
+"https://www.foodnetwork.com/recipes/food-network-kitchen/instant-pot-pasta-marinara-7262988",
+"https://www.foodnetwork.com/recipes/food-network-kitchen/instant-pot-butter-chicken-5486200",
+"https://www.foodnetwork.com/recipes/food-network-kitchen/instant-pot-creamy-ranch-chicken-pasta-8100706",
+"https://www.foodnetwork.com/recipes/food-network-kitchen/instant-pot-mini-frittatas-5451507",
+"https://www.foodnetwork.com/recipes/food-network-kitchen/instant-pot-beef-stew-5339970",
+"https://www.foodnetwork.com/recipes/food-network-kitchen/instant-pot-saag-paneer-5486174",
+"https://www.foodnetwork.com/recipes/food-network-kitchen/instant-pot-black-bean-soup-3649853",
+"https://www.foodnetwork.com/recipes/food-network-kitchen/instant-pot-lemon-frozen-chicken-with-orzo-7246221",
+"https://www.foodnetwork.com/recipes/food-network-kitchen/instant-pot-taco-night-5450003",
+"https://www.foodnetwork.com/recipes/food-network-kitchen/instant-pot-spaghetti-squash-with-marinara-5500659",
+"https://www.foodnetwork.com/recipes/food-network-kitchen/instant-pot-pozole-rojo-5486199",
+"https://www.foodnetwork.com/recipes/food-network-kitchen/instant-pot-korean-style-short-ribs-5450025",
+"https://www.foodnetwork.com/recipes/food-network-kitchen/instant-pot-chicken-and-dumplings-5453423",
+"https://www.foodnetwork.com/recipes/food-network-kitchen/instant-pot-pot-roast-5195673",
+"https://www.foodnetwork.com/recipes/food-network-kitchen/instant-pot-sunday-sauce-5453596"
 ]
 for url in urls_List:
 
@@ -66,12 +105,12 @@ for url in urls_List:
     # print(instructions)
 
     # To write or append for recipe's table. Just use 'a' the append and 'w' to write. When appending comment out "headers"
-    with open ("recipes.csv", "a") as csv_file:
-        csv_writer = writer(csv_file, quoting=csv.QUOTE_ALL)
-        headers = ["Recipe Name", "servings","Total Time", "Prep Time", "Cook Time", "Instruction" ]
-        csv_writer.writerow(headers)
-        rows=[recipe_name, servings,total_time,prep_time,cook_time,instructions]
-        csv_writer.writerow(rows)
+    # with open ("recipes.csv", "a") as csv_file:
+    #     csv_writer = writer(csv_file, quoting=csv.QUOTE_ALL)
+    #     headers = ["Recipe Name", "servings","Total Time", "Prep Time", "Cook Time", "Instruction" ]
+    #     csv_writer.writerow(headers)
+    #     rows=[recipe_name, servings,total_time,prep_time,cook_time,instructions]
+    #     csv_writer.writerow(rows)
 
 
 
@@ -88,11 +127,12 @@ for url in urls_List:
     # To write or append to ingredients table
     with open ("ingredients.csv","a") as csv_file:
         csv_writer = writer(csv_file, quoting=csv.QUOTE_ALL)
-        headers = ["Recipe Name","Ingredients"]
+        headers = ["id","name","Ingredients"]
         csv_writer.writerow(headers)
 
-        for i in ingredients:    
-            rows= [recipe_name,i]
+        for i in ingredients:
+            ingredient_id = ingredients.index(i)
+            rows= [ingredient_id,recipe_name,i]
             csv_writer.writerow(rows)
 
 

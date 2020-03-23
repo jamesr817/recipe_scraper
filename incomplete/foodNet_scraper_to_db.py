@@ -7,9 +7,9 @@ from mysql.connector import Error
 # Establishing connection to DB
 mydb =mysql.connector.connect(
      host = "localhost",
-     user = "liftoff",
-     passwd = "scraper",
-     database = "liftoff"
+     user = "recipe_user",
+     passwd = "root%recipe5",
+     database = "health_recipe"
 )
 # Testing connection
 print(mydb)
@@ -23,8 +23,8 @@ for db in my_cursor:
     print(db)
 
 # Creating DB tables
-my_cursor.execute("CREATE TABLE recipes (recipe_id INT PRIMARY KEY AUTO_INCREMENT, recipe_name VARCHAR(255), servings VARCHAR(255), total_time VARCHAR(255), prep_time VARCHAR(255), cook_time VARCHAR(255), instructions VARCHAR(20000))ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci")
-my_cursor.execute("CREATE TABLE ingredients (ingredient_id INT PRIMARY KEY AUTO_INCREMENT, ingredient_name VARCHAR(255), measurement VARCHAR(255), recipe_id INT, FOREIGN KEY (recipe_id) REFERENCES recipes(recipe_id))ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci")
+# my_cursor.execute("CREATE TABLE recipes (recipe_id INT PRIMARY KEY AUTO_INCREMENT, recipe_name VARCHAR(255), servings VARCHAR(255), total_time VARCHAR(255), prep_time VARCHAR(255), cook_time VARCHAR(255), instructions VARCHAR(20000))ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci")
+# my_cursor.execute("CREATE TABLE ingredients (ingredient_id INT PRIMARY KEY AUTO_INCREMENT, ingredient_name VARCHAR(255), measurement VARCHAR(255), recipe_id INT, FOREIGN KEY (recipe_id) REFERENCES recipes(recipe_id))ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci")
 
 # Testing tables
 for tables in my_cursor:

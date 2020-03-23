@@ -2,8 +2,36 @@ import recipe_scrapers
 from recipe_scrapers import scrape_me
 import requests
 from bs4 import BeautifulSoup
-import csv
-from csv import excel, writer
+from mysql.connector import Error
+import mysql.connector
+
+mydb =mysql.connector.connect(
+     host = "localhost",
+     user = "recipe_user",
+     passwd = "root%recipe5",
+     database = "health_recipe"
+)
+# Testing connection
+# print(mydb)
+
+# Initialzing cursor
+my_cursor = mydb.cursor()
+
+# Checking to see if liftoff db exist and is recognized when running our code
+# my_cursor.execute("SHOW DATABASES")
+# for db in my_cursor:
+#     print(db)
+
+# Creating DB tables
+# my_cursor.execute("CREATE TABLE recipes (recipe_id INT PRIMARY KEY AUTO_INCREMENT, recipe_name VARCHAR(255), servings VARCHAR(255), total_time VARCHAR(255), prep_time VARCHAR(255), cook_time VARCHAR(255), instructions VARCHAR(20000))ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci")
+# my_cursor.execute("CREATE TABLE ingredients (ingredient_id INT PRIMARY KEY AUTO_INCREMENT, ingredient_name VARCHAR(255), measurement VARCHAR(255), recipe_id INT, FOREIGN KEY (recipe_id) REFERENCES recipes(recipe_id))ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci")
+
+# Testing tables
+# for tables in my_cursor:
+#     print(tables)
+
+# my_cursor.close()
+# mydb.close()
 
 
 
@@ -74,42 +102,29 @@ foodnet_urls_List=[
 "https://www.foodnetwork.com/recipes/food-network-kitchen/instant-pot-sunday-sauce-5453596"
 ]
 
-ingredient_List = []
-for urls in foodnet_urls_List:
-    scraper =scrape_me(urls)
-    ingredients = scraper.ingredients()
-    for i in ingredients:
-        name = scraper.title()
-        item = i
-        ingredientList = [[name, item]]
-        ingredient_List.extend(ingredientList)
+for url in foodnet_urls_List:
+    scraper = scrape_me(url)
+    name = scraper.title()
+    servings = scraper.yields()
+    serve_time = scraper.total_time()
+    steps = scraper.instructions()
+    query1 = "INSERT INTO recipe(name, serve_time, servings, steps) VALUES (%s,%s,%s,%s)"
+    vals = (name,serve_time,servings,steps)
+    my_cursor.executemany(vals, "INSERT INTO recipe(name, serve_time, servings, steps) VALUES (%s,%s,%s,%s)")
+    mydb.commit()
 
-# Writing CSV for Recipe Table
-with open ("recipe_list.csv", "w") as csv_file:
-    csv_writer = writer(csv_file,) #quoting=csv.QUOTE_ALL)
-    headers = ["id","name", "serve_time", "servings", "steps" ]
-    csv_writer.writerow(headers)
-    # Appending to recipe_list CSV file 
-    for url in foodnet_urls_List:
-        scraper = scrape_me(url)
-        recipe_ID = foodnet_urls_List.index(url)
-        name = scraper.title()
-        serve_time = scraper.total_time()
-        servings = scraper.yields()
-        steps = scraper.instructions()        
-        rows=[recipe_ID, name, serve_time, servings, steps]
-        csv_writer.writerow(rows)
-   
+# for url in foodnet_urls_List:
+#     scraper = scrape_me(url)
+#     recipe_name = scraper.title()
+#     servings = scraper.yields()
+#     total_time = scraper.total_time()
+#     instructions = scraper.instructions()
+#     print(servings,total_time,instructions)
 
-# Writing CSV for Ingredients Table
-with open ("ingredients_list.csv","w") as csv_file:
-    csv_writer = writer(csv_file, quoting=csv.QUOTE_ALL)
-    headers = ["id","name","ingredients"]
-    csv_writer.writerow(headers)
-    for i in ingredient_List:
-        ingredient_ID = ingredient_List.index(i)
-        name = i[0]
-        ingredient = i[1]
-        rows= [ingredient_ID,name,ingredient]
-        csv_writer.writerow(rows)
-        
+
+# for url in foodnet_urls_List:
+#     scraper = scrape_me(url)
+#     recipe_name = scraper.title()
+#     ingredients = scraper.ingredients()
+#     print(recipe_name,ingredients)
+
